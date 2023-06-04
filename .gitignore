@@ -21,5 +21,3 @@ __pycache__
 /pip-wheel-metadata
 coverage.xml
 .idea
-poetry.lock
-pyproject.toml
