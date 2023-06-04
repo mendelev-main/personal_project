@@ -9,7 +9,11 @@ packages = [{include = "personal_project"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 pytelegrambotapi = "^4.12.0"
+requests = "^2.23.0"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
 
 [build-system]
 requires = ["poetry-core"]
