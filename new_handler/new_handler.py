@@ -12,16 +12,19 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda massage: True)
 def get_weather(message):
+    print("Done")
     response = requests.get(
-        f"https://api.openweathermap.org/data/2.5/weather?q={message.text}&lang=erg&appid={api_key}"
+        f"https://api.openweathermap.org/data/2.5/weather?q={message.text}&lang=eng&appid={api_key}"
     )
     data = response.json()
     name = data["name"]
     temp = data["main"]["temp"] - 273.15
     wind = data["wind"]["speed"]
+    description = data["weather"][0]["description"]
 
     bot.reply_to(
-        message, f"Сейчас в {name} {temp:.0f} градусов. Скорость ветра {wind:.0f} м/с"
+        message,
+        f"Now in {name} {description} {temp:.0f} degrees. Wind speed {wind:.0f} m/s",
     )
 
 
