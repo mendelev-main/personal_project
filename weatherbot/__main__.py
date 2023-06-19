@@ -1,5 +1,6 @@
 import typer
 
+
 cla = typer.Typer()
 
 
@@ -11,9 +12,12 @@ def bot():
     print("launch bot")
 
 
-# @cla.command()
-# def notify():
-#     print('launch notify')
+@cla.command()
+def notify():
+    from weatherbot.notify import main
+
+    main()
+    print("launch notify")
 
 
 cla()
