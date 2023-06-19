@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: weatherdb
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: weatherdb
+    volumes:
+      - db-data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+volumes:
+  db-data: null
