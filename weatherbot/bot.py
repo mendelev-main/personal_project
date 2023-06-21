@@ -1,9 +1,10 @@
+import config
+import models
+import requests
 import sqlalchemy.orm
 import telebot
-import requests
-import config
 from sqlalchemy import create_engine
-import models
+
 
 bot = telebot.TeleBot(config.BOT_TOKEN, parse_mode=None)
 engine = create_engine(config.POSTGRES_URL, echo=True)
@@ -21,7 +22,7 @@ def send_welcome(message):
 
 
 @bot.message_handler(commands=["help"])
-def send_welcome(message):
+def send_help(message):
     bot.reply_to(
         message,
         "📍I can help you find out the weather anywhere,\n"
@@ -32,7 +33,7 @@ def send_welcome(message):
 
 
 @bot.message_handler(commands=["pl"])
-def send_welcome(message: telebot.types.Message) -> None:
+def set_location(message: telebot.types.Message) -> None:
     with sqlalchemy.orm.Session(bind=engine, expire_on_commit=False) as session:
         telegram_id = message.from_user.id
         user: models.User | None = (
