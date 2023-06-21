@@ -1,9 +1,9 @@
-import config
-import models
 import requests
 import sqlalchemy.orm
 import telebot
 from sqlalchemy import create_engine
+
+from weatherbot import config, models
 
 
 bot = telebot.TeleBot(config.BOT_TOKEN, parse_mode=None)
