@@ -10,13 +10,25 @@ packages = [{include = "personal_project"}]
 python = "^3.10"
 pytelegrambotapi = "^4.12.0"
 requests = "^2.23.0"
+sqlalchemy = "^2.0.16"
+psycopg2-binary = "^2.9.6"
+typer = "^0.9.0"
 
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
 pre-commit = "^3.3.2"
 isort = "^5.12.0"
 flake8 = "^6.0.0"
+
+[tool.black]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+lines_after_imports = 2
 
 [tool.black]
 skip-string-normalization = true
