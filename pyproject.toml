@@ -20,15 +20,8 @@ black = "^23.3.0"
 isort = "^5.12.0"
 flake8 = "^6.0.0"
 pre-commit = "^3.3.2"
-isort = "^5.12.0"
-flake8 = "^6.0.0"
 
-[tool.black]
-skip-string-normalization = true
 
-[tool.isort]
-profile = "black"
-lines_after_imports = 2
 
 [tool.black]
 skip-string-normalization = true

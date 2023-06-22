@@ -15,9 +15,9 @@ models.Base.metadata.create_all(bind=engine)
 def send_welcome(message):
     bot.reply_to(
         message,
-        "Hi, I'm a bot 🤖\n"
-        "I'll help you find out about the weather.\n"
-        "More info -> [/help]",
+        "Привет, я БОТ 🤖\n"
+        "Я помогу тебе узнать о погоде.\n"
+        "Больше информации -> [/help]",
     )
 
 
@@ -25,38 +25,45 @@ def send_welcome(message):
 def send_help(message):
     bot.reply_to(
         message,
-        "📍I can help you find out the weather anywhere,\n"
-        "just write the city\n \n"
-        "✅You can subscribe to the weather \nforecast in your location,"
-        "for this use the command [/pl your citi]",
+        "📍Если хочешь узнать о погоде просто напиши локацию в чат\n"
+        "✅Если хочешь получать ежедневный прогноз нажми сюда -> [/your_location]",
     )
 
 
-@bot.message_handler(commands=["pl"])
-def set_location(message: telebot.types.Message) -> None:
-    with sqlalchemy.orm.Session(bind=engine, expire_on_commit=False) as session:
-        telegram_id = message.from_user.id
-        user: models.User | None = (
-            session.query(models.User)
-            .filter(models.User.telegram_id == telegram_id)
-            .first()
-        )
-        if user is None:
-            user = models.User(
-                username=message.from_user.username,
-                telegram_id=message.from_user.id,
-                first_name=message.from_user.first_name,
-                preferred_location=message.text.split()[1].capitalize(),
+@bot.message_handler(commands=["your_location"])
+def add_preferred_location(message: telebot.types.Message) -> None:
+    bot.reply_to(message, 'По какой локации ты хочешь получать прогноз?')
+    bot.register_next_step_handler_by_chat_id(chat_id=message.chat.id, callback=add_db)
+
+
+def add_db(message: telebot.types.Message) -> None:
+    location = message.text
+    response = requests.get(
+        f"https://api.openweathermap.org/data/2.5/weather?q={location}&lang=eng&appid={config.API_KEY}"
+    )
+    if response.status_code == 200:
+        with sqlalchemy.orm.Session(bind=engine) as session:
+            user = (
+                session.query(models.User)
+                .filter(models.User.telegram_id == message.chat.id)
+                .first()
             )
+            if user is None:
+                user = models.User(
+                    telegram_id=message.from_user.id,
+                    username=message.from_user.username,
+                    first_name=message.from_user.first_name,
+                    preferred_location=location,
+                )
+            else:
+                user.preferred_location = location
             session.add(user)
             session.commit()
             session.refresh(user)
 
-    bot.reply_to(
-        message,
-        f"Hi {user.first_name}."
-        f"I remembered your location for the daily\nforecast {message.text.split()[1].capitalize()}",
-    )
+        bot.reply_to(message, f"Ок, теперь твоя токация {location}")
+    else:
+        bot.reply_to(message, 'Не нашел такую локацию (')
 
 
 @bot.message_handler(func=lambda location: True)
