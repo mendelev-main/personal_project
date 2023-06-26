@@ -12,9 +12,9 @@ def bot():
     print("launch bot")
 
 
-# @cla.command()
-# def notify():
-#     print('launch notify')
+@cla.command()
+def notify():
+    print('launch notify')
 
 
 cla()
