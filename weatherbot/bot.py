@@ -69,7 +69,7 @@ def add_db(message: telebot.types.Message) -> None:
 @bot.message_handler(func=lambda location: True)
 def get_weather(location):
     response = requests.get(
-        f"https://api.openweathermap.org/data/2.5/weather?q={location.text}&lang=eng&appid={config.API_KEY}"
+        f"https://api.openweathermap.org/data/2.5/weather?q={location.text}&lang=ru&appid={config.API_KEY}"
     )
     print(f"{location.text},{response.status_code=}")
     data = response.json()
@@ -80,6 +80,6 @@ def get_weather(location):
 
     bot.reply_to(
         location,
-        f"Now in {name} {description} "
-        f"{temp:.0f} degrees. Wind speed {wind:.0f} m/s",
+        f"{name} -> {description} "
+        f"{temp:.0f} градусов, Скорость ветра {wind:.0f} м/с",
     )
