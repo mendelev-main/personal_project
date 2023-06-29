@@ -3,13 +3,14 @@
 import time
 from datetime import datetime, timedelta
 
-import bot
-import models
 import sqlalchemy.orm
+
+from weatherbot import bot, models
 
 
 def main():
     while True:
+        print('launch notify')
         now = datetime.now()
         today_9 = datetime.today().replace(hour=9)
         wake_up_at = today_9 if today_9 > now else today_9 + timedelta(days=1)

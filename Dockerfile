@@ -9,4 +9,4 @@ COPY  ./pyproject.toml ./poetry.lock ./
 RUN poetry install
 
 COPY ./weatherbot ./weatherbot
-CMD ["poetry", "run", "python", "-m", "personal_project"]
+ENTRYPOINT ["poetry", "run"]

@@ -1,10 +1,13 @@
+import os
+
+
 BOT_TOKEN = "5998702901:AAFGOpuvytYEWFKbU6I5TydhQwLnAbXS43o"
 API_KEY = "595edbf624f93725e127cde22f92b67e"
 
 _POSTGRES_NAME = "weatherdb"
 _POSTGRES_USER = "weatherdb"
 _POSTGRES_PASSWORD = "devpass"
-_POSTGRES_HOST = "localhost"
+_POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 _POSTGRES_PORT = 5432
 POSTGRES_URL = (
     f"postgresql+psycopg2://{_POSTGRES_USER}:{_POSTGRES_PASSWORD}"

@@ -6,6 +6,22 @@ services:
     build:
       context:
         .
+    command:
+      - python
+      - -m
+      - weatherbot
+      - bot
+    environment:
+      POSTGRES_HOST: postgres
+  notifier:
+    image: weatherbot
+    command:
+      - python
+      - -m
+      - weatherbot
+      - notify
+    environment:
+      POSTGRES_HOST: postgres
   postgres:
     image: postgres:15
     environment:
